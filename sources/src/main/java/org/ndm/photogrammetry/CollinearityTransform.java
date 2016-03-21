@@ -1,5 +1,7 @@
 package org.ndm.photogrammetry;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
 /**
@@ -11,12 +13,27 @@ public class CollinearityTransform {
 
 	private CameraIntrinsics cameraIntrinsics = null;
 	private CameraAttitude exposureOrientation = null;
+	private AffineTransform cameraToImageTransform = null;
 	
 	public CollinearityTransform(){}
 	
-	public CollinearityTransform(CameraIntrinsics cameraIntrinsics, CameraAttitude exposureOrientation){
+	public CollinearityTransform(CameraIntrinsics cameraIntrinsics, CameraAttitude exposureOrientation, AffineTransform cameraToImageTransform){
 		this.cameraIntrinsics = cameraIntrinsics;
 		this.exposureOrientation = exposureOrientation;
+		this.cameraToImageTransform = cameraToImageTransform;
+	}
+	
+	public CollinearityTransform(CameraIntrinsics cameraIntrinsics, CameraAttitude exposureOrientation, Double imageWidth, Double imageHeight){
+		this.cameraIntrinsics = cameraIntrinsics;
+		this.exposureOrientation = exposureOrientation;
+		
+		//Figure out the camera to image transform based on the height and width of an image
+		Double scaleX = (imageWidth)/cameraIntrinsics.getSensorWidth();
+		Double scaleY = -(imageHeight)/cameraIntrinsics.getSensorHeight();
+		Double translateX = (imageWidth)/2.0;
+		Double translateY = imageHeight/2.0;
+		cameraToImageTransform = new AffineTransform(scaleX, 0.0, 0.0, scaleY, translateX, translateY);
+
 	}
 	
 	/**
@@ -55,7 +72,9 @@ public class CollinearityTransform {
 		double ynum = ((x-x0)*r12)+((y-y0)*r22)+((z-z0)*r32);
 		double iy = -cameraIntrinsics.getFocalLength()*(ynum/den);
 		
-		return new Point2D.Double(ix, iy);
+		Point2D.Double imagePoint = (java.awt.geom.Point2D.Double) cameraToImageTransform.transform(new Point2D.Double(ix, iy), null);
+		
+		return imagePoint;
 	}
 	
 	/**
@@ -66,8 +85,15 @@ public class CollinearityTransform {
 	 */
 	public Point2D.Double imageToGround(Point2D.Double imagePoint, Double objectHeight){
 		
+		Point2D.Double cameraPoint;
+		try {
+			cameraPoint = (java.awt.geom.Point2D.Double) cameraToImageTransform.inverseTransform(imagePoint, null);
+		} catch (NoninvertibleTransformException e1) {
+			throw new RuntimeException(e1);
+		}
+		
 		// Implemented using the standard form (as opposed to the matrix form) to make testing/debugging 
-		// easier.  Should re-implement in matrix form for simplicity/readability/performance.
+		// easier.  Should re-implement in matrix form for simplicity/readability.
 		double r11 = exposureOrientation.getRotationMatrix().getEntry(0,0);
 		double r12 = exposureOrientation.getRotationMatrix().getEntry(0,1);
 		double r13 = exposureOrientation.getRotationMatrix().getEntry(0,2);
@@ -86,8 +112,8 @@ public class CollinearityTransform {
 		double n0 = cameraIntrinsics.getPrinciplePoint().getY();
 		double c = cameraIntrinsics.getFocalLength();
 		
-		double e = imagePoint.getX();
-		double n = imagePoint.getY();
+		double e = cameraPoint.getX();
+		double n = cameraPoint.getY();
 		double z = objectHeight;
 
 		double den = ((e-e0)*r31)+((n-n0)*r32)-(c*r33);
@@ -118,6 +144,14 @@ public class CollinearityTransform {
 		this.exposureOrientation = exposureOrientation;
 	}
 	
+	public AffineTransform getCameraToImageTransform() {
+		return cameraToImageTransform;
+	}
+
+	public void setCameraToImageTransform(AffineTransform cameraToImageTransform) {
+		this.cameraToImageTransform = cameraToImageTransform;
+	}
+	
 	/**
 	 * Print out the center and corner of the image in WKT.  Useful for debugging camera and pose parameters.
 	 */
@@ -144,6 +178,5 @@ public class CollinearityTransform {
 		System.out.println("POINT("+cbl.x+" "+cbl.y+")");
 		
 	}
-	
 	
 }

@@ -1,5 +1,6 @@
 package org.ndm.photogrammetry;
 
+import org.apache.commons.math3.complex.Quaternion;
 import org.apache.commons.math3.linear.RealMatrix;
 
 /**
@@ -13,6 +14,11 @@ public class BasicCameraAttitudeImpl implements CameraAttitude{
 	private RealMatrix rotationMatrix = null;
 	
 	public BasicCameraAttitudeImpl(){}
+	
+	public BasicCameraAttitudeImpl(RealMatrix cameraLocation, Quaternion quaternion){
+		this.cameraLocation = cameraLocation;
+		this.rotationMatrix = QuaternionUtil.rotationMatrixFromQuaternion2(quaternion);
+	}
 	
 	public BasicCameraAttitudeImpl(RealMatrix cameraLocation, RealMatrix rotationMatrix){
 		this.cameraLocation = cameraLocation;

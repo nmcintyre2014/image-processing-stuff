@@ -30,8 +30,8 @@ public class DownsampleRecipe implements ImageProcessingRecipe{
 		// Node in the symbolic rendering graph to downsample an image by a factor of 2
 		ParameterBlock pbDs = new ParameterBlock();
 		pbDs.addSource(sourceImage);
-		pbDs.add(0.5f);
-		pbDs.add(0.5f);
+		pbDs.add(0.5d);
+		pbDs.add(0.5d);
 		RenderedOp downsampled = JAI.create("subsampleaverage", pbDs);
 		
 		return downsampled;

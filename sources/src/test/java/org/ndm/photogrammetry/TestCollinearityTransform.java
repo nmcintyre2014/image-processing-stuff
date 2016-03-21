@@ -1,12 +1,11 @@
 package org.ndm.photogrammetry;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import org.apache.commons.math3.complex.Quaternion;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +42,7 @@ public class TestCollinearityTransform {
 		unit = new CollinearityTransform();
 		unit.setCameraIntrinsics(cameraIntrinsics);
 		unit.setExposureOrientation(exposure);
+		unit.setCameraToImageTransform(new AffineTransform());
 	}
 	
 	@Test
@@ -74,6 +74,5 @@ public class TestCollinearityTransform {
 		assertEquals(groundPoint2.getY(), groundPoint.getY(), 0.01);
 		
 	}
-	
 
 }
