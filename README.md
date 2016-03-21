@@ -7,10 +7,10 @@ Pipelined, deferred-execution image processing is an architectural pattern for d
 PDIP is good for designing elegant, simple image processing systems without compromising flexibility or performance.  It was originally concieved of as a way to overcome inherent I/O bottlenecks at the CPU for a wide variety of image processing problems.  It did that well and that's still a major benefit of the pattern.  In the modern era of computing, PDIP has proven to bring new types of benefits.  Namely, it allows the developer to separate image processing concerns from compute scheduling concerns.  This makes it easy to develop, for example, mutli-threadded or distributed image processing programs that are both simple and performant.
 
 ## Who uses PDIP?
-PDIP is used in the geospatial industry to build high-performance image servers.  Some well-known digital photography software developed a company whose name rhymes with "Nairobi" has been using PDIP to dominate the digital photo processing space for many years.  A few commercial and open-source PDIP libraries exists.  Some of them are:
+PDIP is used in the geospatial industry to build high-performance image servers.  Some well-known digital photography software developed at a company whose name rhymes with "Nairobi" has been using PDIP to dominate the digital photo processing space for many years.  A few commercial and open-source PDIP libraries exists.  Some of them are:
   * [Java Advanced Imagaing](http://www.oracle.com/technetwork/articles/javaee/jai-142803.html) (JAI - the library our application uses)
   * [Intel IPP DMIP](https://software.intel.com/en-us/forums/intel-integrated-performance-primitives/topic/294955) 
-  * [Halide](http://halide-lang.org/) - check out some of the great publications from this relatively new project that explains some of the benefits of PDIP-style processing.
+  * [Halide](http://halide-lang.org/) - check out some of the great publications from this relatively new project that explain some of the benefits of PDIP-style processing.
 
 ## How to use this software
 ### Dependencies
