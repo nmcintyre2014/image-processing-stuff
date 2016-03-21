@@ -30,8 +30,8 @@ mvn clean install cobertura:cobertura javadoc:javadoc
 
 ### Running the software
 To make it relatively easy to run, the software builds into a runnable uber-jar.  This uber-jar (and a Java JRE) should be all one needs to run the software.  The steps for running the software are:
-  1 Get the uber-jar by building it (it'll end up in a directory called 'target') or just get a pre-built one from the 'builds' directory.  There are no platform-specific libraries, so the application should run on linux, mac, or windows.
-  2 Run the following command:
+  1. Get the uber-jar by building it (it'll end up in a directory called 'target') or just get a pre-built one from the 'builds' directory.  There are no platform-specific libraries, so the application should run on linux, mac, or windows.
+  2. Run the following command:
 ```
 TBD
 ```
