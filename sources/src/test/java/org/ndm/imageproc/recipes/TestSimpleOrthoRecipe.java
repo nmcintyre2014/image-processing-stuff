@@ -47,5 +47,6 @@ public class TestSimpleOrthoRecipe {
 		AffineTransform destGeoTransform = recipe.getTargetGeoTransform();
 		assertEquals(8.55060304E-7, destGeoTransform.getScaleX(), 0.00000001);
 		assertEquals(-122.40770947285885, destGeoTransform.getTranslateX(), 0.000000001);
+		
 	}
 }
