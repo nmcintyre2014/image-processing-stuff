@@ -13,18 +13,21 @@ PDIP is used in the geospatial industry to build high-performance image servers.
   * [Halide](http://halide-lang.org/) - check out some of the great publications from this relatively new project that explain some of the benefits of PDIP-style processing.
 
 ## How to use this software
+
 ### Dependencies
-  * A Java SDK to build the software or JRE to run it
+  * A Java SDK to build the software or JRE to run it.  I used Java 1.8, but the code should build on older java platforms.
   * Maven 3+ to build the software
+
 ### Building the Software
-Build and run unit tests:
+Build and run unit tests (from the 'sources' dirctory - where the pom.xml file resides):
 ```
 mvn clean install
 ```
-Build, run unit tests, generate code coverage report, generate javadocs
+Build, run unit tests, generate code coverage report, generate javadocs:
 ```
 mvn clean install cobertura:cobertura javadoc:javadoc
 ```
+
 ### Running the software
 To make it relatively easy to run, the software builds into a runnable uber-jar.  This uber-jar (and a Java JRE) should be all one needs to run the software.  The steps for running the software are:
 1 Get the uber-jar by building it (it'll end up in a directory called 'target') or just get a pre-built one from the 'builds' directory.  There are no platform-specific libraries, so the application should run on linux, mac, or windows.
