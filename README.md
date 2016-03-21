@@ -3,9 +3,7 @@
 1. Add test coverage to maven build
 1. Add uber-jar creation to maven build
 1. Create and check-in a pre-built uber-jar
-1. Write ortho recipe
 1. Finish multi-threadded image processor
-1. Add camera/sensor space to image space affine transform to the camera model
 
 # image-processing-stuff - A simple demonstration of pipelined, deferred-execution image processing.
 
