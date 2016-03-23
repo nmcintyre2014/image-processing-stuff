@@ -46,10 +46,7 @@ public class TfwUtil {
 		Double transY = new Double(br.readLine());
 	 
 		br.close();
-		//AffineTransform(double m00, double m10, double m01, double m11, double m02, double m12)
-		//scaleX,shearY,shearX,scaleY,tranX,tranY
-		
-		
+	
 		AffineTransform xform = new AffineTransform(scaleX,shearY,shearX,scaleY,transX,transY);
 		
 		return xform;

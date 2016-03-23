@@ -36,7 +36,7 @@ public class Orthorectifier {
 	
 	private static final Double metersPerDegreeEquator = 111319.9;
 	
-	@Parameter(names = "-if", description = "Full path to CSV file with camaera attidue.", required = true)
+	@Parameter(names = "-if", description = "Full path to CSV file with camaera attitude.", required = true)
 	private String csvFile = null;
 	
 	@Parameter(names = "-id", description = "The image id (from attitude file) to process.", required = true)
@@ -64,11 +64,6 @@ public class Orthorectifier {
 	private Double sensorHeight = 15.6;
 	
 	public static void main(String[] args) throws IOException{
-		
-		// Give JAI 75% of the JVM ram
-		//long maxMemory = Runtime.getRuntime().maxMemory();
-		//long jaiCache = (long)((double) maxMemory * .75);
-		//JAI.getDefaultInstance().getTileCache().setMemoryCapacity(jaiCache);
 		
 		Orthorectifier orthorectifier = new Orthorectifier();
 		
@@ -104,7 +99,7 @@ public class Orthorectifier {
 				
 				Path path = Paths.get(csvFile);
 				String imageFile = path.getParent().toAbsolutePath().toString()+"/"+imageId;
-				System.out.println(imageFile);
+				//System.out.println(imageFile);
 				
 				Double longitude = Double.parseDouble(record.get(1));
 				Double latitude = Double.parseDouble(record.get(2));

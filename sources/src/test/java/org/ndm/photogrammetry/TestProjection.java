@@ -43,6 +43,9 @@ public class TestProjection {
 		
 		// Image 1 7952x5304
 		CollinearityTransform ct1 = new CollinearityTransform(cameraIntrinsics, eo1, 7952.0, 5304.0);
+		
+		ct1.printProjectedImagePointsWKT();
+		
 		Point2D.Double groundPoint = ct1.imageToGround(new Point2D.Double(3967.0, 2652.0), 0.0);
 		//Point2D.Double groundPoint = ct1.imageToGround(new Point2D.Double(0.0, 0.0), 0.0);
 		Point2D.Double centerTruth = new Point2D.Double(-122.40757158451548, 37.77193337018862);

@@ -61,7 +61,9 @@ public class ThreaddedImageProcessor implements ImageProcessor{
 		// Write the processed tiles to an image on disk
 		try {
 			System.out.println("Writing image to disk.");
+			File outputFile = new File(outputFileName);
 			ImageIO.write(image, "tif", new File(outputFileName));
+			System.out.println("Done.");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

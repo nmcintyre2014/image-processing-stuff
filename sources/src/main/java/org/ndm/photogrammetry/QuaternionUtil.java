@@ -11,6 +11,8 @@ import org.apache.commons.math3.linear.RealMatrix;
  */
 public class QuaternionUtil {
 
+	// Copied and modified from code on euclidianspace.org - need to verify license.
+	
 	/**
 	 * Converts a quaternion into a rotation matrix.
 	 * @param q - a quaternion
@@ -23,7 +25,7 @@ public class QuaternionUtil {
 	    double sqy = q.getQ2()*q.getQ2();
 	    double sqz = q.getQ3()*q.getQ3();
 
-	    // invs (inverse square length) is only required if quaternion is not already normalised
+	    // normalize as we go...
 	    double invs = 1 / (sqx + sqy + sqz + sqw);
 	    m[0][0] = ( sqx - sqy - sqz + sqw)*invs ; // since sqw + sqx + sqy + sqz =1/invs*invs
 	    m[1][1] = (-sqx + sqy - sqz + sqw)*invs ;
@@ -48,29 +50,13 @@ public class QuaternionUtil {
 	    return rotationMatrix;
 	}
 	
-	/*
-	public static RealMatrix rotationMatrixFromQuaterion(Quaternion q){
-		
-		double[][] rMatArray = new double[3][3];
-		rMatArray[0][0] = 1-(2*q.getQ2()*q.getQ2())-(2*q.getQ3()*q.getQ3());
-		rMatArray[0][1] = (2*q.getQ1()*q.getQ2())-(2*q.getQ3()*q.getQ0());
-		rMatArray[0][2] = (2*q.getQ1()*q.getQ3())+(2*q.getQ1()*q.getQ0());
-		rMatArray[1][0] = (2*q.getQ1()*q.getQ2())+(2*q.getQ3()*q.getQ0());
-		rMatArray[1][1] = 1-(2*q.getQ1()*q.getQ1())-(2*q.getQ2()*q.getQ2());
-		rMatArray[1][2] = (2*q.getQ2()*q.getQ3())-(2*q.getQ1()*q.getQ0());
-		rMatArray[2][0] = (2*)
-		Array2DRowRealMatrix rotationMatrix = new Array2DRowRealMatrix(rMatArray);
-		return rotationMatrix;
-		
-	}
-	*/
-	
 	/**
 	 * Converts a rotation matrix into a quaternion
 	 * @param r - rotatin matrix
 	 * @return - a quaternion
 	 */
 	public static Quaternion quaternionFromRotationMatrix(RealMatrix r){
+		
 		double qw;
 		double qx;
 		double qy;

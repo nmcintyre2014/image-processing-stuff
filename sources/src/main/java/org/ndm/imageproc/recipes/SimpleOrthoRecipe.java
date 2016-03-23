@@ -39,30 +39,46 @@ public class SimpleOrthoRecipe implements ImageProcessingRecipe{
 		// Read in the source image
 		RenderedOp sourceImage = JAI.create("fileload", sourceImageFile);
 		
-		// Build the warp
-		CollinearityTransform ct = new CollinearityTransform(intrinsics, attitude, (double) sourceImage.getWidth(), (double) sourceImage.getHeight());
-		targetGeoTransform = computeOutputTransform(ct, sourceImage);
-		
-		
-		/*
+		RenderedOp withTransparency = sourceImage;
+		double[] background = new double[]{0.0};
 		// Add an alpha channel if requested and if there's not already one
 		RenderedOp postAlpha = sourceImage;
 		if(addAlpha){
+			
+			// Make a single-banded image
+			ParameterBlock pbC = new ParameterBlock();
+			pbC.add((float) sourceImage.getWidth());
+			pbC.add((float) sourceImage.getHeight());
+			pbC.add(new Byte[]{(byte) 0xff});
+			RenderedOp constant = JAI.create("constant", pbC);
+			
+			// Add it to the source image as an extra band to hold alpha transparency info
+			ParameterBlock pbM = new ParameterBlock();
+			pbM.addSource(sourceImage);
+			pbM.addSource(constant);
+			withTransparency = JAI.create("bandmerge", pbM);
+			
 			// If the image has 1 band or 3 bands, we should add an alpha channel
-			if(sourceImage.getSampleModel().getNumBands() == 3 || sourceImage.getSampleModel().getNumBands() == 1){
-				
+			if(sourceImage.getSampleModel().getNumBands() == 3){
+				background = new double[]{0.0, 0.0, 0.0, 0.0};
+			}
+			else if(sourceImage.getSampleModel().getNumBands() == 1){
+				background = new double[]{0.0, 0.0};
 			}
 		}
-		*/
 		
+		// Build the warp
+		CollinearityTransform ct = new CollinearityTransform(intrinsics, attitude, (double) sourceImage.getWidth(), (double) sourceImage.getHeight());
+		targetGeoTransform = computeOutputTransform(ct, sourceImage);
 		FlatSurfaceModel surfaceModel = new FlatSurfaceModel(0.0);
 		CollinearityWarp warp = new CollinearityWarp(targetGeoTransform, surfaceModel, ct);
 		
 		// Warp it into the output image space
 		ParameterBlock pbW = new ParameterBlock();
-		pbW.addSource(sourceImage);
+		pbW.addSource(withTransparency);
 		pbW.add(warp);
 		pbW.add(resamplingKernel);
+		pbW.add(background);
 		RenderedOp warped = JAI.create("warp", pbW);
 		
 		//System.out.println("Warp: "+warped.getWidth()+" :: "+warped.getHeight());
