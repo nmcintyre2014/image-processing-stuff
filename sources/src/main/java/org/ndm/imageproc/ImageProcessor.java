@@ -19,5 +19,10 @@ public interface ImageProcessor {
 	 * @param outputFileName
 	 */
 	public void processAndStore(ImageProcessingRecipe recipe, String outputFileName);
-	
+
+	/**
+	 * Cleanly shuts down any resources associated with the processor.
+	 * 
+	 */
+	public void shutdown();
 }

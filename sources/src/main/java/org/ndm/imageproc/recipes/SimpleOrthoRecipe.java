@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.renderable.ParameterBlock;
 
+import javax.media.jai.ImageLayout;
 import javax.media.jai.Interpolation;
 import javax.media.jai.JAI;
 import javax.media.jai.RenderedOp;
@@ -40,7 +41,6 @@ public class SimpleOrthoRecipe implements ImageProcessingRecipe{
 		
 		// Build the warp
 		CollinearityTransform ct = new CollinearityTransform(intrinsics, attitude, (double) sourceImage.getWidth(), (double) sourceImage.getHeight());
-		
 		targetGeoTransform = computeOutputTransform(ct, sourceImage);
 		
 		
@@ -64,6 +64,8 @@ public class SimpleOrthoRecipe implements ImageProcessingRecipe{
 		pbW.add(warp);
 		pbW.add(resamplingKernel);
 		RenderedOp warped = JAI.create("warp", pbW);
+		
+		//System.out.println("Warp: "+warped.getWidth()+" :: "+warped.getHeight());
 		
 		return warped;
 	}
