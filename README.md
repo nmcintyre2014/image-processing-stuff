@@ -1,8 +1,3 @@
-# TODO:
-1. Add test coverage to maven build
-1. Add uber-jar creation to maven build
-1. Create and check-in a pre-built uber-jar
-
 # image-processing-stuff - A simple demonstration of pipelined, deferred-execution image processing.
 
 ## What is pipelined, deferred-execution image processing (PDIP)?
@@ -24,19 +19,28 @@ PDIP is used in the geospatial industry to build high-performance image servers.
   * Maven 3+ to build the software
 
 ### Building the Software
-Build and run unit tests (from the 'sources' dirctory - where the pom.xml file resides):
+Build and run unit tests:
 ```
+cd sources
 mvn clean install
 ```
 Build, run unit tests, generate code coverage report, generate javadocs:
 ```
+cd sources
 mvn clean install cobertura:cobertura javadoc:javadoc
 ```
 
 ### Running the software
 To make it relatively easy to run, the software builds into a runnable uber-jar.  This uber-jar (and a Java JRE) should be all one needs to run the software.  The steps for running the software are:
   1. Get the uber-jar by building it (it'll end up in a directory called 'target') or just get a pre-built one from the 'builds' directory.  There are no platform-specific libraries, so the application should run on linux, mac, or windows.
-  2. Run the following command:
+  2. Run the following command to print usage:
 ```
-TBD
+java -jar builds/image-processing-stuff-1.0.jar
 ```
+  3. Process an image:
+```
+java -Xmx1024M -jar builds/image-processing-stuff-1.0.jar -if test_data/image_coordinates.csv -id DSC03449.JPG -of /tmp/DSC03449_out.tif
+```
+
+### Documentation
+Cobertura test coverage reports and javadoc documentation can be found in the 'builds' directory.  Open 'index.html' with a browser.
