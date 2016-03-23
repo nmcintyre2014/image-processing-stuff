@@ -1,9 +1,7 @@
 # TODO:
-1. Write the command-line application
 1. Add test coverage to maven build
 1. Add uber-jar creation to maven build
 1. Create and check-in a pre-built uber-jar
-1. Finish multi-threadded image processor
 
 # image-processing-stuff - A simple demonstration of pipelined, deferred-execution image processing.
 
